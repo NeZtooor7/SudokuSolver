@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sudokusolver"
+version = "0.1.0"
+description = "Django web app that solves Sudoku puzzles using backtracking."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "Django==6.0.1",
+]
+
+# Optional: handy tooling for development (not required to run the app)
+[project.optional-dependencies]
+dev = [
+  "ruff>=0.6.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"

@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>Sudoku Board</title>
+		<script src="{% static 'core/js/jquery-1.12.4.min.js' %}" rel="stylesheet"></script>
+		<script src="{% static 'core/js/bootstrap.min.js' %}" rel="stylesheet"></script>
+		<link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'core/css/sudoku_table_style.css' %}" rel="stylesheet">
+	</head>
+	<body>
+		<form method="POST" action="{% url 'action' %}">
+			{% csrf_token %}
+			<div class="container" align="center">
+				<h1>Sudoku Board</h1>
+				<table id="grid">
+					{% for row in matrix %}
+					<tr>
+						{% for cell in row %}
+							{% with r=forloop.parentloop.counter c=forloop.counter %}
+							{% with r_str=forloop.parentloop.counter|stringformat:"s" c_str=forloop.counter|stringformat:"s" %}
+							{% with cell_name="cell_"|add:r_str|add:c_str cell_id="cell-"|add:r_str|add:c_str %}
+							<td>
+								<input id="{{ cell_id }}" name="{{ cell_name }}" pattern="[1-9]" type="text" value="{% if cell != 0 %}{{ cell }}{% endif %}"
+								  {% if cell_name in introduced_values %}disabled{% endif %} />
+							</td>
+							{% endwith %}
+							{% endwith %}
+							{% endwith %}
+						{% endfor %}
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+			<br />
+			<div class="container" align="center">
+				<button type="submit" class="btn btn-primary btn-lg"{% if introduced_values|length > 0 %} disabled{% endif %}>
+                    Solve
+                </button>
+				<a href="{% url 'home' %}" class="btn btn-warning btn-lg">
+                    Clear
+                </a>
+			</div>
+			{% if error %}
+				<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Error</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p>{{ error }}</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+								<a href="{% url 'home' %}" class="btn btn-warning">Clear</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					$(function () {
+					  $('#myModal').modal('show');
+					});
+				</script>
+			{% endif %}
+		</form>
+	</body>
+</html>
