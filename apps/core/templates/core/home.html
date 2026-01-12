@@ -27,7 +27,7 @@
 							{% with cell_name="cell_"|add:r_str|add:c_str cell_id="cell-"|add:r_str|add:c_str %}
 							<td>
 								<input id="{{ cell_id }}" name="{{ cell_name }}" pattern="[1-9]" type="text" value="{% if cell != 0 %}{{ cell }}{% endif %}"
-								{% if cell_name in introduced_values %}disabled{% endif %} />
+								{% if cell_name in introduced_values %}disabled {% endif %}/>
 							</td>
 							{% endwith %}
 							{% endwith %}
