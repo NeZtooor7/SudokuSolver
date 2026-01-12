@@ -1,7 +1,7 @@
 from django.http.request import QueryDict
 
-DICT_SQUARES_INDEXES = {0: 0, 1: 0, 2: 0, 3: 3, 4: 3, 5: 3, 6: 6, 7: 6, 8: 6}
 DIMENSION_OF_SUDOKU_TABLE = 9
+DICT_SQUARES_INDEXES = {0: 0, 1: 0, 2: 0, 3: 3, 4: 3, 5: 3, 6: 6, 7: 6, 8: 6}
 
 def validate_the_numerical_values_and_fill_the_matrix(matrix: list, introduced_values: list, request_post: QueryDict) -> str | None:
     error_msg = None
@@ -25,10 +25,9 @@ def is_valid_sudoku(matrix: list) -> bool:
     #~ Verify if the table is 9x9
     acum = 0
     for row in matrix:
-        is_valid = len(row) == DIMENSION_OF_SUDOKU_TABLE
+        is_valid = is_valid and len(row) == DIMENSION_OF_SUDOKU_TABLE
         acum += len(row)
-    if acum != DIMENSION_OF_SUDOKU_TABLE**2:
-        is_valid = False
+    is_valid = is_valid and acum == DIMENSION_OF_SUDOKU_TABLE**2
     #~ Verify if the sudoku table is well-structured
     i = 0
     while i < DIMENSION_OF_SUDOKU_TABLE and is_valid:
