@@ -5,12 +5,13 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<title>Sudoku Board</title>
+
+		<title>Sudoku Solver</title>
 		<script src="{% static 'core/js/jquery-1.12.4.min.js' %}" rel="stylesheet"></script>
 		<script src="{% static 'core/js/bootstrap.min.js' %}" rel="stylesheet"></script>
 		<link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="{% static 'core/css/sudoku_table_style.css' %}" rel="stylesheet">
+		<link rel="icon" type="image/x-icon" href="{% static 'core/favicon.ico' %}">
 	</head>
 	<body>
 		<form method="POST" action="{% url 'action' %}">
@@ -26,7 +27,7 @@
 							{% with cell_name="cell_"|add:r_str|add:c_str cell_id="cell-"|add:r_str|add:c_str %}
 							<td>
 								<input id="{{ cell_id }}" name="{{ cell_name }}" pattern="[1-9]" type="text" value="{% if cell != 0 %}{{ cell }}{% endif %}"
-								  {% if cell_name in introduced_values %}disabled{% endif %} />
+								{% if cell_name in introduced_values %}disabled{% endif %} />
 							</td>
 							{% endwith %}
 							{% endwith %}
@@ -39,11 +40,11 @@
 			<br />
 			<div class="container" align="center">
 				<button type="submit" class="btn btn-primary btn-lg"{% if introduced_values|length > 0 %} disabled{% endif %}>
-                    Solve
-                </button>
+					Solve
+				</button>
 				<a href="{% url 'home' %}" class="btn btn-warning btn-lg">
-                    Clear
-                </a>
+					Clear
+				</a>
 			</div>
 			{% if error %}
 				<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
